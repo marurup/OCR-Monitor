@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OCR-Monitor</string>
+    <string name="notification_channel_name">Capture</string>
+    <string name="notification_channel_description">Shown while the camera is capturing on a timer.</string>
+    <string name="notification_title">Watching display</string>
+    <string name="notification_text">%1$d frames captured</string>
+    <string name="action_stop">Stop</string>
+</resources>

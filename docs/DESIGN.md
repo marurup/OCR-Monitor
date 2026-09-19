@@ -252,3 +252,31 @@ It does not replace this project: it will not handle the F3600 panel, a
 thermostat or a weather station, its camera is far weaker, and it does not give
 a general profile-driven tool. But it is honest prior art and may solve one of
 the two use cases in a weekend.
+
+## 13. Build and verification
+
+`core/` is plain Kotlin and its tests run anywhere with a JDK 17 or later:
+
+    ./gradlew :core:test
+
+`app/` needs the Android SDK. CI (`.github/workflows/build.yml`) runs the core
+tests, assembles a debug APK and publishes it as a build artifact, so a
+sideloadable build is always one download away from any push.
+
+The module targets Java 17 bytecode via `jvmTarget` rather than pinning a
+toolchain, because D8 rejects class files newer than 17 and pinning would
+demand that exact JDK be installed.
+
+### Verifying the platform floor
+
+The spine's only real question is whether the dock phone captures with the
+screen off. On the device:
+
+1. Grant the camera permission; read the capability report.
+2. Start capture at a 15 or 30 second interval.
+3. Blank the screen and leave it five minutes.
+4. Wake it and check the capture count.
+
+A climbing count settles the platform question. Frames land in
+`Android/data/dk.urupit.ocrmonitor/files/frames`, pullable over USB without
+adb, which is also how real images reach the reader work in phase 2.
